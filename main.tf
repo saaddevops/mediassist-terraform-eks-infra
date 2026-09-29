@@ -183,10 +183,10 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "jenkins" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t2.large"
+  instance_type               = "m7i-flex.large"
   subnet_id                   = aws_subnet.public[0].id
   vpc_security_group_ids      = [aws_security_group.jenkins_sg.id]
-  key_name                    = "delete_later"
+  key_name                    = "compliance-iq2"
   associate_public_ip_address = true
   root_block_device { volume_size = 30 }
   tags = { Name = "medibot-jenkins" }
@@ -194,10 +194,10 @@ resource "aws_instance" "jenkins" {
 
 resource "aws_instance" "sonarqube" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t2.medium"
+  instance_type               = "m7i-flex.large"
   subnet_id                   = aws_subnet.public[1].id
   vpc_security_group_ids      = [aws_security_group.tools_sg.id]
-  key_name                    = "delete_later"
+  key_name                    = "compliance-iq2"
   associate_public_ip_address = true
   root_block_device { volume_size = 20 }
   tags = { Name = "medibot-sonarqube" }
@@ -205,10 +205,10 @@ resource "aws_instance" "sonarqube" {
 
 resource "aws_instance" "nexus" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t2.medium"
+  instance_type               = "m7i-flex.large"
   subnet_id                   = aws_subnet.public[2].id
   vpc_security_group_ids      = [aws_security_group.tools_sg.id]
-  key_name                    = "delete_later"
+  key_name                    = "compliance-iq2"
   associate_public_ip_address = true
   root_block_device { volume_size = 30 }
   tags = { Name = "medibot-nexus" }
@@ -327,7 +327,7 @@ resource "aws_eks_node_group" "medibot" {
     min_size     = 2
   }
 
-  instance_types = ["t3.medium"]
+  instance_types = ["m7i-flex.large"]
 
   tags = {
     Name = "medibot-node"
@@ -362,7 +362,7 @@ resource "aws_db_instance" "mysql" {
   identifier             = "medibot-mysql"
   engine                 = "mysql"
   engine_version         = "8.0"
-  instance_class         = "db.t3.micro"
+  instance_class         = "db.t4g.micro"
   allocated_storage      = 20
   db_name                = "medibotdb"
   username               = "admin"
